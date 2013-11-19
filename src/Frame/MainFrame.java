@@ -6,18 +6,22 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public class MainFrame extends JFrame {
 
@@ -30,6 +34,7 @@ public class MainFrame extends JFrame {
 	private JComboBox thirdActivity;
 	private JLabel labelTotal;
 	private int count;
+	private List<JComboBox> activities = new ArrayList<JComboBox>();
 
 	/**
 	 * Launch the application.
