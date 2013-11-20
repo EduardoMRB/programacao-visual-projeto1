@@ -7,12 +7,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Process.ActivityProcess;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -34,7 +37,6 @@ public class MainFrame extends JFrame {
 	private JComboBox thirdActivity;
 	private JLabel labelTotal;
 	private int count;
-	private List<JComboBox> activities = new ArrayList<JComboBox>();
 
 	/**
 	 * Launch the application.
@@ -52,15 +54,18 @@ public class MainFrame extends JFrame {
 		});
 	}
 	
-	private void activityEvent(java.awt.AWTEvent e, JTextField textField, JComboBox comboBox) {
-		if (textField.getText().matches("^([0-9][0-9]*)$")) {
-			int mets[] = {5, 8, 11};
+	private void activityEvent(java.awt.AWTEvent e) {
+		try {
+			JTextField[] textFields = {firstActivityTime, secondActivityTime, thirdActivityTime};
+			JComboBox[] combos      = {firstActivity, secondActivity, thirdActivity};
 			
-			int met = mets[comboBox.getSelectedIndex()];
-			int tempo = Integer.parseInt(textField.getText());
+			ActivityProcess process = new ActivityProcess(textFields, combos);
 			
-			count += ((met * 70) * tempo) / 60;
-			labelTotal.setText("Calorias perdidas: " + Integer.toString(count) + " Kcal");
+			labelTotal.setText("Calorias perdidas: " + Integer.toString(process.calculate()) + " Kcal");
+		} catch (java.lang.IllegalArgumentException argEx) {
+			
+		} catch (java.lang.RuntimeException ex) {
+			JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -148,7 +153,7 @@ public class MainFrame extends JFrame {
 		firstActivity = new JComboBox();
 		firstActivity.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				activityEvent(e, firstActivityTime, firstActivity);
+				activityEvent(e);
 			}
 		});
 		firstActivity.setModel(new DefaultComboBoxModel(new String[] {"Caminhada", "Trote Regenerativo", "Corrida"}));
@@ -158,7 +163,7 @@ public class MainFrame extends JFrame {
 		firstActivityTime.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				activityEvent(e, firstActivityTime, firstActivity);
+				activityEvent(e);
 			}
 		});
 		contentPane.add(firstActivityTime, "10, 10, fill, default");
@@ -167,7 +172,7 @@ public class MainFrame extends JFrame {
 		secondActivity = new JComboBox();
 		secondActivity.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				activityEvent(e, secondActivityTime, secondActivity);
+				activityEvent(e);
 			}
 		});
 		secondActivity.setModel(new DefaultComboBoxModel(new String[] {"Caminhada", "Trote Regenerativo", "Corrida"}));
@@ -177,7 +182,7 @@ public class MainFrame extends JFrame {
 		secondActivityTime.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				activityEvent(e, secondActivityTime, secondActivity);
+				activityEvent(e);
 			}
 		});
 		secondActivityTime.setColumns(10);
@@ -186,7 +191,7 @@ public class MainFrame extends JFrame {
 		thirdActivity = new JComboBox();
 		thirdActivity.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				activityEvent(e, thirdActivityTime, thirdActivity);
+				activityEvent(e);
 			}
 		});
 		thirdActivity.setModel(new DefaultComboBoxModel(new String[] {"Caminhada", "Trote Regenerativo", "Corrida"}));
@@ -196,7 +201,7 @@ public class MainFrame extends JFrame {
 		thirdActivityTime.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				activityEvent(e, thirdActivityTime, thirdActivity);
+				activityEvent(e);
 			}
 		});
 		thirdActivityTime.setColumns(10);
